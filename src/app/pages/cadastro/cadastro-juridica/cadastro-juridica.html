@@ -1,0 +1,36 @@
+<main class="login-page">
+    <!-- Lado esquerdo com logo -->
+    <section class="login-left">
+        <img src="assets/LogoRedesDoBem.png" alt="Logo Redes do Bem" />
+        <h1>REDES DO BEM</h1>
+    </section>
+
+    <!-- Lado direito com formulário -->
+    <section class="login-right">
+        <h2>Cadastre-se</h2>
+        <form (ngSubmit)="registrar()" [formGroup]="formCadastro">
+            <label>Nome Razão Social:</label>
+            <input formControlName="nome" type="text" placeholder="Insira aqui o seu nome completo" />
+
+            <label>CNPJ:</label>
+            <input formControlName="cpf" type="text" placeholder="Digite aqui seu CPF" />
+
+            <label>Estado:</label>
+            <select formControlName="estado">
+                <option value="">Selecione seu estado</option>
+                <option *ngFor="let estado of estados" [value]="estado">{{ estado }}</option>
+            </select>
+
+            <label>Cidade:</label>
+            <input formControlName="cidade" type="text" placeholder="Digite aqui sua cidade" />
+
+            <label>E-mail:</label>
+            <input formControlName="email" type="email" placeholder="Insira aqui seu E-mail" />
+
+            <label>Senha:</label>
+            <input formControlName="senha" type="password" placeholder="Digite aqui sua senha" />
+
+            <button type="submit">Registrar-se</button>
+        </form>
+    </section>
+</main>

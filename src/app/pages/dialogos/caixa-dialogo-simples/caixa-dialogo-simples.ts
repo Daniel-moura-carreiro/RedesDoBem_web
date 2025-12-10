@@ -1,11 +1,14 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-caixa-dialogo-simples',
-  imports: [MatDialogModule],
+  standalone: true,
+  imports: [CommonModule, MatDialogModule, MatButtonModule],
   templateUrl: './caixa-dialogo-simples.html',
-  styleUrl: './caixa-dialogo-simples.scss'
+  styleUrls: ['./caixa-dialogo-simples.scss']
 })
 export class CaixaDialogoSimples {
   constructor(

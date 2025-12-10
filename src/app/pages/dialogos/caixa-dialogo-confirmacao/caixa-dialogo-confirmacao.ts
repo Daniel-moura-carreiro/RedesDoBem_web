@@ -1,11 +1,14 @@
 import { Component, Inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-caixa-dialogo-confirmacao',
-  imports: [MatDialogModule],
+  standalone: true,
+  imports: [CommonModule, MatDialogModule, MatButtonModule],
   templateUrl: './caixa-dialogo-confirmacao.html',
-  styleUrl: './caixa-dialogo-confirmacao.scss'
+  styleUrls: ['./caixa-dialogo-confirmacao.scss']
 })
 export class CaixaDialogoConfirmacao {
   constructor(

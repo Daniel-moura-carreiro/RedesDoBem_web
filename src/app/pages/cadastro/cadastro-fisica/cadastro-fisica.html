@@ -1,0 +1,111 @@
+<main class="login-page">
+    <!-- Lado esquerdo com logo -->
+    <section class="login-left">
+        <a routerLink="/">
+            <img src="assets/LogoRedesDoBem.png" alt="Logo Redes do Bem" />
+        </a>
+        <h1>REDES DO BEM</h1>
+    </section>
+
+    <!-- Lado direito com formulário -->
+    <section class="login-right">
+        <h2>Cadastre-se como Doador</h2>
+        <p>Preencha seus dados para criar sua conta</p>
+        
+        <form (ngSubmit)="registrar()" [formGroup]="formCadastro">
+            <div class="form-group">
+                <label for="nome">Nome completo:</label>
+                <input 
+                    id="nome"
+                    formControlName="nome" 
+                    type="text" 
+                    placeholder="Insira aqui o seu nome completo" 
+                />
+                <div class="error" *ngIf="formCadastro.get('nome')?.invalid && formCadastro.get('nome')?.touched">
+                    <small *ngIf="formCadastro.get('nome')?.hasError('required')">Nome é obrigatório.</small>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="cpf">CPF:</label>
+                <input 
+                    id="cpf"
+                    formControlName="cpf" 
+                    type="text" 
+                    placeholder="Digite aqui seu CPF"
+                    maxlength="14"
+                />
+                <div class="error" *ngIf="formCadastro.get('cpf')?.invalid && formCadastro.get('cpf')?.touched">
+                    <small *ngIf="formCadastro.get('cpf')?.hasError('required')">CPF é obrigatório.</small>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="estado">Estado:</label>
+                    <select id="estado" formControlName="estado">
+                        <option value="">Selecione seu estado</option>
+                        <option *ngFor="let estado of estados" [value]="estado">{{ estado }}</option>
+                    </select>
+                    <div class="error" *ngIf="formCadastro.get('estado')?.invalid && formCadastro.get('estado')?.touched">
+                        <small *ngIf="formCadastro.get('estado')?.hasError('required')">Estado é obrigatório.</small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="cidade">Cidade:</label>
+                    <input 
+                        id="cidade"
+                        formControlName="cidade" 
+                        type="text" 
+                        placeholder="Digite aqui sua cidade" 
+                    />
+                    <div class="error" *ngIf="formCadastro.get('cidade')?.invalid && formCadastro.get('cidade')?.touched">
+                        <small *ngIf="formCadastro.get('cidade')?.hasError('required')">Cidade é obrigatória.</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail:</label>
+                <input 
+                    id="email"
+                    formControlName="email" 
+                    type="email" 
+                    placeholder="Insira aqui seu E-mail" 
+                />
+                <div class="error" *ngIf="formCadastro.get('email')?.invalid && formCadastro.get('email')?.touched">
+                    <small *ngIf="formCadastro.get('email')?.hasError('required')">E-mail é obrigatório.</small>
+                    <small *ngIf="formCadastro.get('email')?.hasError('email')">E-mail inválido.</small>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="senha">Senha:</label>
+                <input 
+                    id="senha"
+                    formControlName="senha" 
+                    type="password" 
+                    placeholder="Digite aqui sua senha" 
+                />
+                <div class="error" *ngIf="formCadastro.get('senha')?.invalid && formCadastro.get('senha')?.touched">
+                    <small *ngIf="formCadastro.get('senha')?.hasError('required')">Senha é obrigatória.</small>
+                    <small *ngIf="formCadastro.get('senha')?.hasError('minlength')">A senha deve ter pelo menos 6 caracteres.</small>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-registrar" [disabled]="formCadastro.invalid">Registrar-se</button>
+        </form>
+
+        <div class="login-link">
+            <p>Já possui uma conta? <a routerLink="/login">Faça login aqui</a></p>
+        </div>
+
+        <div class="voltar-home">
+            <a routerLink="/">
+                <mat-icon>arrow_back</mat-icon>
+                Voltar para página inicial
+            </a>
+        </div>
+    </section>
+</main>

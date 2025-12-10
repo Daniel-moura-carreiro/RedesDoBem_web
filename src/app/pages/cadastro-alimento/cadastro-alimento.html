@@ -1,0 +1,71 @@
+<form class="cadastro-form" (ngSubmit)="cadastrarDoacao()">
+    <h2>Cadastro de Alimentos</h2>
+
+    <section>
+        <h3>Informações dos alimentos</h3>
+        <label>Tipo de alimento
+            <select [(ngModel)]="doacao.tipo" name="tipo" required>
+                <option value="" disabled selected>Selecione</option>
+                <option *ngFor="let tipo of tiposAlimento" [value]="tipo">{{ tipo }}</option>
+            </select>
+        </label>
+
+        <label>Data de validade
+            <input type="date" [(ngModel)]="doacao.validade" name="validade" required />
+        </label>
+
+        <label>Nome / Descrição
+            <input type="text" [(ngModel)]="doacao.descricao" name="descricao"
+                placeholder="Ex: Feijão integral, Feijão carioca" required />
+        </label>
+
+        <label>Quantidade
+            <input type="number" [(ngModel)]="doacao.quantidade" name="quantidade" required />
+        </label>
+
+        <label>Unidade
+            <select [(ngModel)]="doacao.unidade" name="unidade" required>
+                <option value="" disabled selected>Selecione</option>
+                <option *ngFor="let unidade of unidades" [value]="unidade">{{ unidade }}</option>
+            </select>
+        </label>
+    </section>
+
+    <section>
+        <h3>Localização e Coleta</h3>
+        <label>Endereço para coleta
+            <input type="text" [(ngModel)]="doacao.endereco" name="endereco"
+                placeholder="Rua, número, bairro, cidade - CEP" required />
+        </label>
+
+        <label>Condições de armazenamento
+            <select [(ngModel)]="doacao.armazenamento" name="armazenamento" required>
+                <option value="" disabled selected>Selecione</option>
+                <option *ngFor="let condicao of condicoesArmazenamento" [value]="condicao">{{ condicao }}</option>
+            </select>
+        </label>
+    </section>
+
+    <section>
+        <h3>Informações adicionais</h3>
+        <textarea [(ngModel)]="doacao.observacoes" name="observacoes"
+            placeholder="Informações extras, horários para coleta, instruções especiais..."></textarea>
+    </section>
+
+    <section>
+        <h3>Status da doação</h3>
+        <div class="status-buttons">
+            <button type="button" [class.active]="doacao.status === 'Disponível'"
+                (click)="setStatus('Disponível')">Disponível</button>
+            <button type="button" [class.active]="doacao.status === 'Reservada'"
+                (click)="setStatus('Reservada')">Reservada</button>
+            <button type="button" [class.active]="doacao.status === 'Entregue'"
+                (click)="setStatus('Entregue')">Entregue</button>
+        </div>
+    </section>
+
+    <div class="form-actions">
+        <button type="button" (click)="cancelar()">Cancelar</button>
+        <button type="submit">Cadastrar doação</button>
+    </div>
+</form>

@@ -36,13 +36,22 @@
       left: -150px;
     }
 
+    a {
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
     img {
       width: 320px;
       margin-bottom: 20px;
       filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.15));
       animation: floatLogo 3s ease-in-out infinite;
-      position: relative;
-      z-index: 1;
+      cursor: pointer;
     }
 
     h1 {
@@ -57,16 +66,17 @@
 
   .login-right {
     flex: 1;
-    padding: 80px 60px;
+    padding: 60px 50px;
     background-color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    max-width: 550px;
+    max-width: 600px;
     margin: 0 auto;
     animation: fadeInRight 0.6s ease;
+    overflow-y: auto;
 
-    h1 {
+    h2 {
       font-size: 32px;
       margin-bottom: 12px;
       color: #1a1a1a;
@@ -74,7 +84,7 @@
     }
 
     > p {
-      margin-bottom: 40px;
+      margin-bottom: 35px;
       color: #666666;
       font-size: 16px;
     }
@@ -83,8 +93,18 @@
       display: flex;
       flex-direction: column;
 
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        
+        @media (max-width: 576px) {
+          grid-template-columns: 1fr;
+        }
+      }
+
       .form-group {
-        margin-bottom: 24px;
+        margin-bottom: 22px;
         position: relative;
 
         label {
@@ -96,7 +116,8 @@
           transition: color 0.3s ease;
         }
 
-        input {
+        input,
+        select {
           width: 100%;
           padding: 14px 16px;
           border: 2px solid #e0e0e0;
@@ -122,6 +143,15 @@
           }
         }
 
+        select {
+          cursor: pointer;
+          appearance: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 12px center;
+          padding-right: 40px;
+        }
+
         .error {
           margin-top: 6px;
           color: #BD2E2A;
@@ -138,7 +168,7 @@
         }
       }
 
-      .btn-entrar {
+      .btn-registrar {
         background: linear-gradient(135deg, #437E43 0%, #356535 100%);
         color: #fff;
         padding: 16px;
@@ -147,7 +177,7 @@
         font-weight: 600;
         font-size: 16px;
         cursor: pointer;
-        margin-top: 10px;
+        margin-top: 15px;
         transition: all 0.3s ease;
         box-shadow: 0 4px 12px rgba(67, 126, 67, 0.25);
 
@@ -170,59 +200,55 @@
       }
     }
 
-    .registro {
-      margin-top: 50px;
-      padding-top: 30px;
+    .login-link {
+      margin-top: 30px;
+      text-align: center;
+      padding-top: 20px;
       border-top: 1px solid #e0e0e0;
 
       p {
-        margin-bottom: 16px;
         color: #666666;
         font-size: 15px;
-        font-weight: 500;
-      }
 
-      .registro-buttons {
-        display: flex;
-        gap: 16px;
-
-        button {
-          flex: 1;
-          padding: 14px 24px;
-          border: none;
-          border-radius: 8px;
-          cursor: pointer;
+        a {
+          color: #437E43;
+          text-decoration: none;
           font-weight: 600;
-          font-size: 15px;
-          transition: all 0.3s ease;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          transition: color 0.3s ease;
 
           &:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-          }
-
-          &:active {
-            transform: translateY(0);
+            color: #356535;
+            text-decoration: underline;
           }
         }
+      }
+    }
 
-        .btn-cpf {
-          background: linear-gradient(135deg, #BD2E2A 0%, #9a2522 100%);
-          color: #fff;
+    .voltar-home {
+      margin-top: 20px;
+      text-align: center;
 
-          &:hover {
-            background: linear-gradient(135deg, #9a2522 0%, #7d1e1c 100%);
-          }
+      a {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #666666;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 16px;
+        border-radius: 6px;
+
+        mat-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
         }
 
-        .btn-cnpj {
-          background: linear-gradient(135deg, #437E43 0%, #356535 100%);
-          color: #fff;
-
-          &:hover {
-            background: linear-gradient(135deg, #356535 0%, #2a5228 100%);
-          }
+        &:hover {
+          color: #437E43;
+          background-color: #f5f5f5;
         }
       }
     }
@@ -284,7 +310,7 @@
       padding: 50px 30px;
       max-width: 100%;
 
-      h1 {
+      h2 {
         font-size: 28px;
       }
     }
@@ -309,27 +335,17 @@
     .login-right {
       padding: 40px 20px;
 
-      h1 {
+      h2 {
         font-size: 24px;
       }
 
       form {
         .form-group {
-          margin-bottom: 20px;
+          margin-bottom: 18px;
 
-          input {
+          input,
+          select {
             padding: 12px 14px;
-          }
-        }
-      }
-
-      .registro {
-        .registro-buttons {
-          flex-direction: column;
-          gap: 12px;
-
-          button {
-            width: 100%;
           }
         }
       }

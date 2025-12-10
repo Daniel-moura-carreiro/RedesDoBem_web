@@ -9,11 +9,11 @@ import { AutenticacaoService } from '../../services/autenticacao.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, CaixaDialogoSimples],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.html',
   styleUrls: ['./login.scss']
 })
-export class Login { // nome sem "Component"
+export class Login {
 
   loginForm: FormGroup;
   dados: any;

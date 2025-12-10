@@ -1,4 +1,38 @@
 <body>
+    <header class="custom-header">
+        <nav class="nav-bar">
+            <ul class="nav-left">
+                <li><a matButton href="" target="_blank">Doadores</a></li>
+                <li><a matButton href="" target="_blank">Organizações</a></li>
+            </ul>
+
+            <div class="logo-center">
+                <img src="assets/LogoRedesDoBemRedonda.png" alt="Logo Redes do Bem">
+            </div>
+
+            <ul class="nav-right">
+                <li><a matButton href="" target="_blank">Administradores</a></li>
+                <li class="menu-trigger">
+                    <div class="user-menu-wrapper">
+                        <div class="user-menu" (click)="alternarMenu()" [class.active]="menuAberto">
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+                            <span class="nome-usuario">{{ nomeUsuario || 'Menu' }}</span>
+                            <span class="dropdown-icon material-symbols-outlined" [class.rotated]="menuAberto">keyboard_arrow_down</span>
+                        </div>
+                        <div class="submenu" [class.open]="menuAberto">
+                            <div class="divider"></div>
+                            <button class="menu-item" (click)="fazerLogout()">
+                                <span class="material-symbols-outlined">logout</span>
+                                <span>Logout</span>
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
     <main>
         <section class="hero">
             <div class="hero-text">
