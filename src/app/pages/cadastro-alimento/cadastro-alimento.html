@@ -1,71 +1,185 @@
-<form class="cadastro-form" (ngSubmit)="cadastrarDoacao()">
-    <h2>Cadastro de Alimentos</h2>
-
-    <section>
-        <h3>Informações dos alimentos</h3>
-        <label>Tipo de alimento
-            <select [(ngModel)]="doacao.tipo" name="tipo" required>
-                <option value="" disabled selected>Selecione</option>
-                <option *ngFor="let tipo of tiposAlimento" [value]="tipo">{{ tipo }}</option>
-            </select>
-        </label>
-
-        <label>Data de validade
-            <input type="date" [(ngModel)]="doacao.validade" name="validade" required />
-        </label>
-
-        <label>Nome / Descrição
-            <input type="text" [(ngModel)]="doacao.descricao" name="descricao"
-                placeholder="Ex: Feijão integral, Feijão carioca" required />
-        </label>
-
-        <label>Quantidade
-            <input type="number" [(ngModel)]="doacao.quantidade" name="quantidade" required />
-        </label>
-
-        <label>Unidade
-            <select [(ngModel)]="doacao.unidade" name="unidade" required>
-                <option value="" disabled selected>Selecione</option>
-                <option *ngFor="let unidade of unidades" [value]="unidade">{{ unidade }}</option>
-            </select>
-        </label>
-    </section>
-
-    <section>
-        <h3>Localização e Coleta</h3>
-        <label>Endereço para coleta
-            <input type="text" [(ngModel)]="doacao.endereco" name="endereco"
-                placeholder="Rua, número, bairro, cidade - CEP" required />
-        </label>
-
-        <label>Condições de armazenamento
-            <select [(ngModel)]="doacao.armazenamento" name="armazenamento" required>
-                <option value="" disabled selected>Selecione</option>
-                <option *ngFor="let condicao of condicoesArmazenamento" [value]="condicao">{{ condicao }}</option>
-            </select>
-        </label>
-    </section>
-
-    <section>
-        <h3>Informações adicionais</h3>
-        <textarea [(ngModel)]="doacao.observacoes" name="observacoes"
-            placeholder="Informações extras, horários para coleta, instruções especiais..."></textarea>
-    </section>
-
-    <section>
-        <h3>Status da doação</h3>
-        <div class="status-buttons">
-            <button type="button" [class.active]="doacao.status === 'Disponível'"
-                (click)="setStatus('Disponível')">Disponível</button>
-            <button type="button" [class.active]="doacao.status === 'Reservada'"
-                (click)="setStatus('Reservada')">Reservada</button>
-            <button type="button" [class.active]="doacao.status === 'Entregue'"
-                (click)="setStatus('Entregue')">Entregue</button>
+<div class="cadastro-container">
+    <form class="cadastro-form" (ngSubmit)="cadastrarDoacao()">
+        <div class="form-header">
+            <h2>Cadastro de Alimentos</h2>
+            <p>Preencha as informações sobre a doação de alimentos</p>
         </div>
-    </section>
 
-    <div class="form-actions">
-        <button type="button" (click)="cancelar()">Cancelar</button>
-        <button type="submit">Cadastrar doação</button>
-    </div>
-</form>
+        <section class="form-section">
+            <h3>
+                <span class="icon">🍽️</span>
+                Informações dos alimentos
+            </h3>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="tipo">Tipo de alimento</label>
+                    <select id="tipo" [(ngModel)]="doacao.tipo" name="tipo" required>
+                        <option value="" disabled selected>Selecione o tipo</option>
+                        <option *ngFor="let tipo of tiposAlimento" [value]="tipo">{{ tipo }}</option>
+                    </select>
+                    <div class="error" *ngIf="!doacao.tipo && formSubmitted">
+                        <small>Tipo de alimento é obrigatório.</small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="validade">Data de validade</label>
+                    <input 
+                        id="validade"
+                        type="date" 
+                        [(ngModel)]="doacao.validade" 
+                        name="validade" 
+                        required 
+                    />
+                    <div class="error" *ngIf="!doacao.validade && formSubmitted">
+                        <small>Data de validade é obrigatória.</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="descricao">Nome / Descrição</label>
+                <input 
+                    id="descricao"
+                    type="text" 
+                    [(ngModel)]="doacao.descricao" 
+                    name="descricao"
+                    placeholder="Ex: Feijão integral, Feijão carioca" 
+                    required 
+                />
+                <div class="error" *ngIf="!doacao.descricao && formSubmitted">
+                    <small>Descrição é obrigatória.</small>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="quantidade">Quantidade</label>
+                    <input 
+                        id="quantidade"
+                        type="number" 
+                        [(ngModel)]="doacao.quantidade" 
+                        name="quantidade" 
+                        min="1"
+                        placeholder="0"
+                        required 
+                    />
+                    <div class="error" *ngIf="!doacao.quantidade && formSubmitted">
+                        <small>Quantidade é obrigatória.</small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="unidade">Unidade</label>
+                    <select id="unidade" [(ngModel)]="doacao.unidade" name="unidade" required>
+                        <option value="" disabled selected>Selecione a unidade</option>
+                        <option *ngFor="let unidade of unidades" [value]="unidade">{{ unidade }}</option>
+                    </select>
+                    <div class="error" *ngIf="!doacao.unidade && formSubmitted">
+                        <small>Unidade é obrigatória.</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-section">
+            <h3>
+                <mat-icon>location_on</mat-icon>
+                Localização e Coleta
+            </h3>
+            
+            <div class="form-group">
+                <label for="endereco">Endereço para coleta</label>
+                <input 
+                    id="endereco"
+                    type="text" 
+                    [(ngModel)]="doacao.endereco" 
+                    name="endereco"
+                    placeholder="Rua, número, bairro, cidade - CEP" 
+                    required 
+                />
+                <div class="error" *ngIf="!doacao.endereco && formSubmitted">
+                    <small>Endereço é obrigatório.</small>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="armazenamento">Condições de armazenamento</label>
+                <select id="armazenamento" [(ngModel)]="doacao.armazenamento" name="armazenamento" required>
+                    <option value="" disabled selected>Selecione as condições</option>
+                    <option *ngFor="let condicao of condicoesArmazenamento" [value]="condicao">{{ condicao }}</option>
+                </select>
+                <div class="error" *ngIf="!doacao.armazenamento && formSubmitted">
+                    <small>Condições de armazenamento são obrigatórias.</small>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-section">
+            <h3>
+                <mat-icon>info</mat-icon>
+                Informações adicionais
+            </h3>
+            
+            <div class="form-group">
+                <label for="observacoes">Observações</label>
+                <textarea 
+                    id="observacoes"
+                    [(ngModel)]="doacao.observacoes" 
+                    name="observacoes"
+                    rows="4"
+                    placeholder="Informações extras, horários para coleta, instruções especiais..."
+                ></textarea>
+            </div>
+        </section>
+
+        <section class="form-section">
+            <h3>
+                <mat-icon>check_circle</mat-icon>
+                Status da doação
+            </h3>
+            
+            <div class="status-buttons">
+                <button 
+                    type="button" 
+                    class="status-btn"
+                    [class.active]="doacao.status === 'Disponível'"
+                    (click)="setStatus('Disponível')"
+                >
+                    <mat-icon>check_circle</mat-icon>
+                    Disponível
+                </button>
+                <button 
+                    type="button" 
+                    class="status-btn"
+                    [class.active]="doacao.status === 'Reservada'"
+                    (click)="setStatus('Reservada')"
+                >
+                    <mat-icon>schedule</mat-icon>
+                    Reservada
+                </button>
+                <button 
+                    type="button" 
+                    class="status-btn"
+                    [class.active]="doacao.status === 'Entregue'"
+                    (click)="setStatus('Entregue')"
+                >
+                    <mat-icon>done_all</mat-icon>
+                    Entregue
+                </button>
+            </div>
+        </section>
+
+        <div class="form-actions">
+            <button type="button" class="btn-cancelar" (click)="irPara('home')">
+                <mat-icon>close</mat-icon>
+                Cancelar
+            </button>
+            <button type="submit" class="btn-cadastrar" (click)="irRegistrar('home')">
+                <mat-icon>add_circle</mat-icon>
+                Cadastrar doação
+            </button>
+        </div>
+    </form>
+</div>

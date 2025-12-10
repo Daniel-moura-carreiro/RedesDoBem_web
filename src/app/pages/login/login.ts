@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
 import { CaixaDialogoSimples } from '../dialogos/caixa-dialogo-simples/caixa-dialogo-simples';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { AutenticacaoService } from '../../services/autenticacao.service'; 
+import { AutenticacaoService } from '../../services/autenticacao.service';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +18,10 @@ export class Login {
   loginForm: FormGroup;
   dados: any;
   erro: any;
+
+  navegarPara(caminho: string) {
+    this.router.navigate([caminho]);
+  }
 
   constructor(
     private dialog: MatDialog,

@@ -1,36 +1,104 @@
 <main class="login-page">
     <!-- Lado esquerdo com logo -->
     <section class="login-left">
-        <img src="assets/LogoRedesDoBem.png" alt="Logo Redes do Bem" />
-        <h1>REDES DO BEM</h1>
+        <a routerLink="/">
+            <img src="assets/LogoRedesDoBem.png" alt="Logo Redes do Bem" />
+        </a>
     </section>
 
     <!-- Lado direito com formulário -->
     <section class="login-right">
-        <h2>Cadastre-se</h2>
+        <h2>Cadastre-se como Instituição</h2>
+        <p>Preencha os dados da sua organização para criar sua conta</p>
+        
         <form (ngSubmit)="registrar()" [formGroup]="formCadastro">
-            <label>Nome Razão Social:</label>
-            <input formControlName="nome" type="text" placeholder="Insira aqui o seu nome completo" />
+            <div class="form-group">
+                <label for="nome">Nome / Razão Social:</label>
+                <input 
+                    id="nome"
+                    formControlName="nome" 
+                    type="text" 
+                    placeholder="Insira o nome ou razão social da instituição" 
+                />
+                <div class="error" *ngIf="formCadastro.get('nome')?.invalid && formCadastro.get('nome')?.touched">
+                    <small *ngIf="formCadastro.get('nome')?.hasError('required')">Nome/Razão Social é obrigatório.</small>
+                </div>
+            </div>
 
-            <label>CNPJ:</label>
-            <input formControlName="cpf" type="text" placeholder="Digite aqui seu CPF" />
+            <div class="form-group">
+                <label for="cnpj">CNPJ:</label>
+                <input 
+                    id="cnpj"
+                    formControlName="cnpj" 
+                    type="text" 
+                    placeholder="Digite aqui o CNPJ da instituição"
+                    maxlength="18"
+                />
+                <div class="error" *ngIf="formCadastro.get('cnpj')?.invalid && formCadastro.get('cnpj')?.touched">
+                    <small *ngIf="formCadastro.get('cnpj')?.hasError('required')">CNPJ é obrigatório.</small>
+                </div>
+            </div>
 
-            <label>Estado:</label>
-            <select formControlName="estado">
-                <option value="">Selecione seu estado</option>
-                <option *ngFor="let estado of estados" [value]="estado">{{ estado }}</option>
-            </select>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="estado">Estado:</label>
+                    <select id="estado" formControlName="estado">
+                        <option value="">Selecione o estado</option>
+                        <option *ngFor="let estado of estados" [value]="estado">{{ estado }}</option>
+                    </select>
+                    <div class="error" *ngIf="formCadastro.get('estado')?.invalid && formCadastro.get('estado')?.touched">
+                        <small *ngIf="formCadastro.get('estado')?.hasError('required')">Estado é obrigatório.</small>
+                    </div>
+                </div>
 
-            <label>Cidade:</label>
-            <input formControlName="cidade" type="text" placeholder="Digite aqui sua cidade" />
+                <div class="form-group">
+                    <label for="cidade">Cidade:</label>
+                    <input 
+                        id="cidade"
+                        formControlName="cidade" 
+                        type="text" 
+                        placeholder="Digite a cidade" 
+                    />
+                    <div class="error" *ngIf="formCadastro.get('cidade')?.invalid && formCadastro.get('cidade')?.touched">
+                        <small *ngIf="formCadastro.get('cidade')?.hasError('required')">Cidade é obrigatória.</small>
+                    </div>
+                </div>
+            </div>
 
-            <label>E-mail:</label>
-            <input formControlName="email" type="email" placeholder="Insira aqui seu E-mail" />
+            <div class="form-group">
+                <label for="email">E-mail institucional:</label>
+                <input 
+                    id="email"
+                    formControlName="email" 
+                    type="email" 
+                    placeholder="Insira o e-mail da instituição" 
+                />
+                <div class="error" *ngIf="formCadastro.get('email')?.invalid && formCadastro.get('email')?.touched">
+                    <small *ngIf="formCadastro.get('email')?.hasError('required')">E-mail é obrigatório.</small>
+                    <small *ngIf="formCadastro.get('email')?.hasError('email')">E-mail inválido.</small>
+                </div>
+            </div>
 
-            <label>Senha:</label>
-            <input formControlName="senha" type="password" placeholder="Digite aqui sua senha" />
+            <div class="form-group">
+                <label for="senha">Senha:</label>
+                <input 
+                    id="senha"
+                    formControlName="senha" 
+                    type="password" 
+                    placeholder="Digite aqui a senha" 
+                />
+                <div class="error" *ngIf="formCadastro.get('senha')?.invalid && formCadastro.get('senha')?.touched">
+                    <small *ngIf="formCadastro.get('senha')?.hasError('required')">Senha é obrigatória.</small>
+                    <small *ngIf="formCadastro.get('senha')?.hasError('minlength')">A senha deve ter pelo menos 6 caracteres.</small>
+                </div>
+            </div>
 
-            <button type="submit">Registrar-se</button>
+            <button type="submit" class="btn-registrar" [disabled]="formCadastro.invalid">Registrar-se</button>
         </form>
+
+        <div class="login-link">
+            <p>Já possui uma conta? <button class="btn-login" (click)="navegarPara('login')">Faça Login Aqui</button></p>
+        </div>
+        
     </section>
 </main>

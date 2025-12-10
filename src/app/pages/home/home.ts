@@ -25,12 +25,11 @@ export class HomeComponent implements DoCheck {
   public nomeUsuario: string = "usuário";
   public moduloAtual: string = "admin";
 
-  // Fechar menu ao clicar fora
   @HostListener('document:click', ['$event'])
   clickFora(event: Event): void {
     const target = event.target as HTMLElement;
     const menuTrigger = target.closest('.menu-trigger');
-    
+
     if (!menuTrigger && this.menuAberto) {
       this.menuAberto = false;
     }
@@ -60,10 +59,9 @@ export class HomeComponent implements DoCheck {
     });
     return lastValueFrom(caixaConfirmacao.afterClosed());
   }
-
-  fazerLogout(): void {
+  public fazerLogout(caminho: string) {
     this.fecharMenu();
-    this.router.navigate(['/login']);
+    this.router.navigate([caminho]);
   }
 
   private fecharMenu(): void {
@@ -74,16 +72,12 @@ export class HomeComponent implements DoCheck {
     this.menuAberto = !this.menuAberto;
   }
 
-  public irParaPortal(): void {
-    this.navegarPara("/portal");
-  }
-
-  public irParaCases(): void {
-    this.navegarPara("/cases");
-  }
-
   private navegarPara(rota: string): void {
     this.fecharMenu();
     this.router.navigate([rota]);
+  }
+
+  irPara(caminho: string) {
+    this.router.navigate([caminho]);
   }
 }

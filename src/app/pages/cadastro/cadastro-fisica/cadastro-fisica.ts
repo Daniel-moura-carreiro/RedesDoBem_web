@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -18,7 +19,7 @@ export class CadastroFisicaComponent {
     'SP', 'SE', 'TO'
   ];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
     this.formCadastro = this.fb.group({
       nome: ['', Validators.required],
       cpf: ['', Validators.required],
@@ -37,5 +38,9 @@ export class CadastroFisicaComponent {
     } else {
       console.log('Formulário de pessoa física inválido');
     }
+  }
+
+  navegarPara(caminho: string) {
+    this.router.navigate([caminho]);
   }
 }

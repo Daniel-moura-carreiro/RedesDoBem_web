@@ -1,72 +1,354 @@
 .login-page {
-    display: flex;
-    height: 100vh;
-    font-family: Arial, sans-serif;
-}
+  display: flex;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
-.login-left {
+  .login-left {
     flex: 0.6;
     background: linear-gradient(135deg, #BDEBA7 0%, #7E9D70 72%, #6B855F 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
+
+    // Efeito decorativo de fundo
+    &::before {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      top: -200px;
+      right: -200px;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+      bottom: -150px;
+      left: -150px;
+    }
+
+    a {
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
 
     img {
-        width: 290px;
-        margin-bottom: 20px;
+      width: 320px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.15));
+      animation: floatLogo 3s ease-in-out infinite;
+      cursor: pointer;
     }
 
     h1 {
-        font-size: 36px;
-        color: #437E43;
+      font-size: 38px;
+      color: #437E43;
+      font-weight: 700;
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-}
+  }
 
-.login-right {
-    flex: 0.4;
-    padding: 40px;
+  .login-right {
+    flex: 1;
+    padding: 60px 50px;
+    background-color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #f5f5f5;
+    max-width: 600px;
+    margin: 0 auto;
+    animation: fadeInRight 0.6s ease;
+    overflow-y: auto;
 
     h2 {
-        font-size: 28px;
-        margin-bottom: 20px;
-        color: #437E43;
+      font-size: 32px;
+      margin-bottom: 12px;
+      color: #1a1a1a;
+      font-weight: 700;
+    }
+
+    > p {
+      margin-bottom: 35px;
+      color: #666666;
+      font-size: 16px;
     }
 
     form {
-        display: flex;
-        flex-direction: column;
+      display: flex;
+      flex-direction: column;
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        
+        @media (max-width: 576px) {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .form-group {
+        margin-bottom: 22px;
+        position: relative;
 
         label {
-            margin-top: 10px;
-            font-weight: bold;
-            color: #555;
+          font-weight: 600;
+          margin-bottom: 8px;
+          display: block;
+          color: #333333;
+          font-size: 14px;
+          transition: color 0.3s ease;
         }
 
         input,
         select {
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+          width: 100%;
+          padding: 14px 16px;
+          border: 2px solid #e0e0e0;
+          border-radius: 8px;
+          font-size: 15px;
+          transition: all 0.3s ease;
+          background-color: #fafafa;
+
+          &:focus {
+            outline: none;
+            border-color: #437E43;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(67, 126, 67, 0.1);
+          }
+
+          &::placeholder {
+            color: #999999;
+          }
+
+          &.ng-invalid.ng-touched {
+            border-color: #BD2E2A;
+            background-color: #fff5f5;
+          }
         }
 
-        button {
-            margin-top: 20px;
-            padding: 12px;
-            background-color: #437E43;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-
-            &:hover {
-                background-color: #365f36;
-            }
+        select {
+          cursor: pointer;
+          appearance: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 12px center;
+          padding-right: 40px;
         }
+
+        .error {
+          margin-top: 6px;
+          color: #BD2E2A;
+          font-size: 13px;
+          font-weight: 500;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+
+          small {
+            display: block;
+            animation: slideDown 0.3s ease;
+          }
+        }
+      }
+
+      .btn-registrar {
+        background: linear-gradient(135deg, #437E43 0%, #356535 100%);
+        color: #fff;
+        padding: 16px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 15px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(67, 126, 67, 0.25);
+
+        &:hover:not(:disabled) {
+          background: linear-gradient(135deg, #356535 0%, #2a5228 100%);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(67, 126, 67, 0.35);
+        }
+
+        &:active:not(:disabled) {
+          transform: translateY(0);
+        }
+
+        &:disabled {
+          background: linear-gradient(135deg, #cccccc 0%, #b3b3b3 100%);
+          cursor: not-allowed;
+          box-shadow: none;
+          opacity: 0.6;
+        }
+      }
     }
+
+    .login-link {
+      margin-top: 30px;
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+
+      p {
+        color: #666666;
+        font-size: 15px;
+
+        a {
+          color: #437E43;
+          text-decoration: none;
+          font-weight: 600;
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: #356535;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .voltar-home {
+      margin-top: 20px;
+      text-align: center;
+
+      a {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #666666;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 16px;
+        border-radius: 6px;
+
+        mat-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+        }
+
+        &:hover {
+          color: #437E43;
+          background-color: #f5f5f5;
+        }
+      }
+    }
+  }
+}
+
+// Animações
+@keyframes floatLogo {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsividade
+@media (max-width: 992px) {
+  .login-page {
+    flex-direction: column;
+
+    .login-left {
+      flex: none;
+      min-height: 300px;
+      padding: 40px 20px;
+
+      img {
+        width: 220px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+    }
+
+    .login-right {
+      padding: 50px 30px;
+      max-width: 100%;
+
+      h2 {
+        font-size: 28px;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .login-page {
+    .login-left {
+      min-height: 250px;
+      padding: 30px 20px;
+
+      img {
+        width: 180px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+    }
+
+    .login-right {
+      padding: 40px 20px;
+
+      h2 {
+        font-size: 24px;
+      }
+
+      form {
+        .form-group {
+          margin-bottom: 18px;
+
+          input,
+          select {
+            padding: 12px 14px;
+          }
+        }
+      }
+    }
+  }
 }

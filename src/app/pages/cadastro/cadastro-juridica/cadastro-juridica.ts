@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-cadastro-juridica',
   templateUrl: './cadastro-juridica.html',
   styleUrls: ['./cadastro-juridica.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule, MatIconModule]
 })
 export class CadastroJuridicaComponent {
   formCadastro: FormGroup;
@@ -17,7 +19,7 @@ export class CadastroJuridicaComponent {
     'SP', 'SE', 'TO'
   ];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
     this.formCadastro = this.fb.group({
       razaoSocial: ['', Validators.required],
       cnpj: ['', Validators.required],
@@ -38,5 +40,9 @@ export class CadastroJuridicaComponent {
     } else {
       console.log('Formulário de pessoa jurídica inválido');
     }
+  }
+
+  navegarPara(caminho: string) {
+    this.router.navigate([caminho]);
   }
 }

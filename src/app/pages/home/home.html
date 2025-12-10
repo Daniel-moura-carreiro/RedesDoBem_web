@@ -23,7 +23,7 @@
                         </div>
                         <div class="submenu" [class.open]="menuAberto">
                             <div class="divider"></div>
-                            <button class="menu-item" (click)="fazerLogout()">
+                            <button class="menu-item" (click)="fazerLogout('login')">
                                 <span class="material-symbols-outlined">logout</span>
                                 <span>Logout</span>
                             </button>
@@ -40,8 +40,7 @@
                 <h2>CONECTANDO QUEM QUER AJUDAR COM QUEM MAIS PRECISA</h2>
                 <p>Facilite doações, otimize processos e transforme boas intenções em ações efetivas.</p>
                 <div class="hero-buttons">
-                    <button matButton="elevated" class="btn-doador">Quero ser Doador</button>
-                    <button matButton="elevated" class="btn-ong">Sou uma ONG</button>
+                    <button class="btn-alimento" (click)="irPara('cadastro-alimento')">Cadastrar Alimento</button>
                 </div>
             </div>
             <div class="hero-logo">

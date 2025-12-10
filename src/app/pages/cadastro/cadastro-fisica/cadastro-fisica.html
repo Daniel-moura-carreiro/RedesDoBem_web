@@ -4,7 +4,6 @@
         <a routerLink="/">
             <img src="assets/LogoRedesDoBem.png" alt="Logo Redes do Bem" />
         </a>
-        <h1>REDES DO BEM</h1>
     </section>
 
     <!-- Lado direito com formulário -->
@@ -98,14 +97,7 @@
         </form>
 
         <div class="login-link">
-            <p>Já possui uma conta? <a routerLink="/login">Faça login aqui</a></p>
-        </div>
-
-        <div class="voltar-home">
-            <a routerLink="/">
-                <mat-icon>arrow_back</mat-icon>
-                Voltar para página inicial
-            </a>
+            <p>Já possui uma conta? <button (click)="navegarPara('login')">Faça Login Aqui</button></p>
         </div>
     </section>
 </main>
