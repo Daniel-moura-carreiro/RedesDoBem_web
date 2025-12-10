@@ -1,0 +1,56 @@
+<main class="login-page">
+  <!-- Lado esquerdo com logo -->
+  <section class="login-left">
+    <img src="assets/LogoRedesDoBem.png" alt="Logo Redes do Bem" />
+  </section>
+
+  <!-- Lado direito com formulário -->
+  <section class="login-right">
+    <h1>Entrar</h1>
+    <p>Acesse sua conta para continuar</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Campo Email -->
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Digite seu email"
+        />
+        <div class="error" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+          <small *ngIf="loginForm.get('email')?.hasError('required')">Email é obrigatório.</small>
+          <small *ngIf="loginForm.get('email')?.hasError('email')">Email inválido.</small>
+        </div>
+      </div>
+
+      <!-- Campo Senha -->
+      <div class="form-group">
+        <label for="senha">Senha:</label>
+        <input
+          id="senha"
+          type="password"
+          formControlName="senha"
+          placeholder="Digite sua senha"
+        />
+        <div class="error" *ngIf="loginForm.get('senha')?.invalid && loginForm.get('senha')?.touched">
+          <small *ngIf="loginForm.get('senha')?.hasError('required')">Senha é obrigatória.</small>
+          <small *ngIf="loginForm.get('senha')?.hasError('minlength')">A senha deve ter pelo menos 6 caracteres.</small>
+        </div>
+      </div>
+
+      <!-- Botão Entrar -->
+      <button type="submit" class="btn-entrar" [disabled]="loginForm.invalid">Entrar</button>
+    </form>
+
+    <!-- Registro (sem regras Angular) -->
+    <div class="registro">
+      <p>Não é cadastrado? Registre-se aqui:</p>
+      <div class="registro-buttons">
+        <button class="btn-cpf">CPF</button>
+        <button class="btn-cnpj">CNPJ</button>
+      </div>
+    </div>
+  </section>
+</main>

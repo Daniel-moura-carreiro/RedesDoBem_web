@@ -1,0 +1,117 @@
+.login-page {
+  display: flex;
+  min-height: 100vh;
+
+  .login-left {
+    flex: 1;
+    background: linear-gradient(135deg, #BDEBA7 0%, #7E9D70 72%, #6B855F 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 290px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 36px;
+      color: #437E43;
+    }
+  }
+
+  .login-right {
+    flex: 1;
+    padding: 60px 40px;
+    background-color: #fff;
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #000000;
+    }
+
+    p {
+      margin-bottom: 30px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+
+      .form-group {
+        margin-bottom: 20px;
+
+        label {
+          font-weight: 600;
+          margin-bottom: 5px;
+          display: block;
+        }
+
+        input {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+        }
+
+        .error {
+          margin-top: 5px;
+          color: #BD2E2A;
+          font-size: 13px;
+        }
+      }
+
+      .btn-entrar {
+        background-color: #437E43;
+        color: #fff;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #366a36;
+        }
+
+        &:disabled {
+          background-color: #ccc;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    .registro {
+      margin-top: 40px;
+
+      p {
+        margin-bottom: 10px;
+      }
+
+      .registro-buttons {
+        display: flex;
+        gap: 20px;
+
+        .btn-cpf {
+          background-color: #BD2E2A;
+          color: #fff;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+        }
+
+        .btn-cnpj {
+          background-color: #437E43;
+          color: #fff;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

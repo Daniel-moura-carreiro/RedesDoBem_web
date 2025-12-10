@@ -1,0 +1,145 @@
+/* Hero */
+.hero {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 60px 20px;
+    background-color: #e6f7f1;
+
+    .hero-text {
+        max-width: 500px;
+        text-align: left;
+    }
+
+    .hero-text h1 {
+        font-size: 42px;
+        margin-bottom: 10px;
+        color: #437E43;
+    }
+
+    .hero-text h2 {
+        font-size: 22px;
+        margin-bottom: 20px;
+        color: #000000
+    }
+
+    .hero-buttons {
+        margin-top: 20px;
+    }
+
+    .hero-buttons button {
+        margin-right: 15px;
+        padding: 12px 24px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+
+    }
+
+    .btn-doador {
+        background-color: #437E43;
+        color: #fff;
+    }
+
+    .btn-ong {
+        background-color: #BD2E2A;
+        color: #fff;
+    }
+
+
+    .hero-logo img {
+        height: 330px;
+    }
+}
+
+/* Como Funciona */
+.como-funciona {
+    padding: 60px 20px;
+    text-align: center;
+
+    h1 {
+        color: #437E43;
+        margin-bottom: 10px;
+    }
+
+    .steps {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 30px;
+    }
+
+    .step {
+        background-color: #ffffff;
+        padding: 25px;
+        border-radius: 10px;
+        width: 250px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .step img {
+        height: 80px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+    }
+}
+
+/* Depoimentos */
+.depoimentos {
+    padding: 60px 20px;
+    text-align: center;
+
+    h1 {
+        color: #437E43;
+        margin-bottom: 10px;
+    }
+
+    .example-card {
+        display: inline-block;
+        background-color: #DEE0E4;
+        margin: 20px;
+        width: 320px;
+        height: 220px;
+        border-radius: 10px;
+        vertical-align: top;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .example-card mat-card-title {
+        color: #000000;
+        font-weight: bold;
+    }
+
+    .example-card img {
+        border-radius: 50px;
+    }
+}
+
+
+/* Footer */
+footer {
+  background-color: #437E43;
+  text-align: center;
+  padding: 20px;
+  color: #ffffff;
+
+  nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 40px 0;
+  }
+
+  nav a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: 600;
+  }
+
+  p {
+    margin-top: 10px;
+  }
+}
