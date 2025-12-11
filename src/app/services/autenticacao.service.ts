@@ -8,7 +8,7 @@ import { lastValueFrom } from 'rxjs';
 })
 export class AutenticacaoService {
 
-  private apiUrl = 'https://reqres.in/api/login';  // URL da API
+  private apiUrl = 'http://localhost:8080/api/usuario';  // URL da API
 
   constructor(private http: HttpClient) { }
 
@@ -16,7 +16,7 @@ export class AutenticacaoService {
   async verificarUsuario(email: string, senha: string): Promise<any> {
     const body = {
       email: email,  // Definindo o primeiro campo
-      password: senha   // Definindo o segundo campo
+      senha: senha   // Definindo o segundo campo
     };
     console.log("Body:", body);
     // se parâmetros fossem passados na url
@@ -38,7 +38,7 @@ export class AutenticacaoService {
     // });
 
     const headers = new HttpHeaders ({
-      'x-api-key' : 'reqres_1834266cd5804d82aa284421b850eca8'
+      ' Content-Type': 'application/json'
     });
 
     const options = {
@@ -47,17 +47,61 @@ export class AutenticacaoService {
     };
 
     const observable: Observable<any> = this.http.post<any>(this.apiUrl, body, options);
-    // se fosse get
-    //const observable: Observable<any> = this.http.get<any>(this.apiUrl, { params });
     try {
-      // Usando lastValueFrom para pegar a última emissão da resposta
+      
       const resposta = await lastValueFrom(observable);
       console.log("Resposta da api:", resposta);
       localStorage.setItem('token', resposta.token);
-      return resposta;  // Retorna a resposta da API
+      return resposta;  
     } catch (erro) {
       console.log('Erro da api:', erro);
       throw erro;
     }
   }
+
+  async cadastrarUsuario(email: string, nome: string, senha: string): Promise<any> {
+    const body = {
+      email: email,
+      nome: nome,
+      senha: senha
+    };
+    
+    console.log("Body enviado para cadastro:", body);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    const options = {
+      headers: headers,
+      responseType: 'json' as const
+    };
+
+    const observable: Observable<any> = this.http.post<any>(`${this.apiUrl}/salvar`, body, options);
+    
+    try {
+      const resposta = await lastValueFrom(observable);
+      console.log("Usuário cadastrado com sucesso:", resposta);
+      return resposta;
+    } catch (erro) {
+      console.error('Erro ao cadastrar usuário:', erro);
+      throw erro;
+    }
+  }
+
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  isLogado(): boolean {
+    return this.getToken() !== null;
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('logado');
+  }
 }
+
+

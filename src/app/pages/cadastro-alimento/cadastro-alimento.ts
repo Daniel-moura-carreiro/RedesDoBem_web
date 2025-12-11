@@ -1,21 +1,24 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { DoacaoService } from '../../services/doacao.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CaixaDialogoSimples } from '../dialogos/caixa-dialogo-simples/caixa-dialogo-simples';
 
 @Component({
   selector: 'app-cadastro-alimento',
-  standalone: true, 
+  standalone: true,
   imports: [
-    FormsModule,    
+    FormsModule,
     CommonModule,
-    MatIconModule   
+    MatIconModule
   ],
   templateUrl: './cadastro-alimento.html',
   styleUrls: ['./cadastro-alimento.scss']
 })
-export class CadastroAlimentoComponent {
+export class CadastroAlimentoComponent implements OnInit {
   doacao = {
     tipo: '',
     validade: '',
@@ -30,36 +33,105 @@ export class CadastroAlimentoComponent {
 
   formSubmitted = false;
 
+  // Controle de edição
+  doacaoId?: number;
+  modoEdicao = false;
+  carregando = false;
+
   tiposAlimento = ['Grãos', 'Enlatados', 'Frescos', 'Congelados'];
   unidades = ['kg', 'g', 'unidade', 'litro'];
   condicoesArmazenamento = ['Temperatura ambiente', 'Refrigerado', 'Congelado'];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private doacaoService: DoacaoService,
+    private dialog: MatDialog
+  ) { }
+
+  async ngOnInit() {
+    const id = this.route.snapshot.params['id'];
+    if (id) {
+      this.doacaoId = Number(id);
+      this.modoEdicao = true;
+      await this.carregarDoacao(this.doacaoId);
+    }
+  }
+
+  async carregarDoacao(id: number): Promise<void> {
+    this.carregando = true;
+    try {
+      const doacaoBackend = await this.doacaoService.buscarDoacao(id);
+      this.doacao = {
+        tipo: doacaoBackend.tipo_alimento || '',
+        validade: doacaoBackend.validade || '',
+        descricao: doacaoBackend.tipo_alimento || '',
+        quantidade: doacaoBackend.quantidade || null,
+        unidade: doacaoBackend.unidade || '',
+        endereco: doacaoBackend.endereco || '',
+        armazenamento: doacaoBackend.armazenamento || '',
+        observacoes: doacaoBackend.observacoes || '',
+        status: doacaoBackend.status || 'Disponível'
+      };
+      this.abrirDialogo('Informação', 'Doação carregada com sucesso!');
+    } catch (erro: any) {
+      const message = erro?.error?.message || erro?.message || 'Erro ao carregar doação';
+      this.abrirDialogo('Erro', `Não foi possível carregar a doação: ${message}`);
+      this.router.navigate(['/home']);
+    } finally {
+      this.carregando = false;
+    }
+  }
 
   setStatus(status: string): void {
     this.doacao.status = status;
   }
 
-  cadastrarDoacao(): void {
+  async cadastrarDoacao(): Promise<void> {
     this.formSubmitted = true;
 
-    // Validação básica
     if (!this.validarFormulario()) {
-      console.log('Formulário inválido');
+      this.abrirDialogo('Atenção', 'Por favor, preencha todos os campos obrigatórios.');
       return;
     }
 
-    // Aqui você pode fazer a chamada para o backend
-    console.log('Doação cadastrada:', this.doacao);
-    
-    // Exemplo de navegação após cadastro
-    // this.router.navigate(['/lista-doacoes']);
-    
-    // Ou mostrar mensagem de sucesso
-    alert('Doação cadastrada com sucesso!');
-    
-    // Resetar formulário se quiser
-    this.resetarFormulario();
+    try {
+      if (!this.doacaoService.verificarAutenticacao()) {
+        this.abrirDialogo('Erro', 'Você precisa estar logado para realizar esta ação.');
+        this.router.navigate(['/login']);
+        return;
+      }
+
+      const doacaoParaBackend = {
+        doacao_id: this.doacaoId,
+        tipo_alimento: this.doacao.descricao,
+        quantidade: this.doacao.quantidade!,
+        unidade: this.doacao.unidade,
+        validade: this.doacao.validade,
+        endereco: this.doacao.endereco,
+        armazenamento: this.doacao.armazenamento,
+        observacoes: this.doacao.observacoes,
+        status: this.doacao.status
+      };
+
+      const resposta = await this.doacaoService.salvarDoacao(doacaoParaBackend);
+
+      const mensagem = this.modoEdicao ? 'Doação atualizada com sucesso!' : 'Doação cadastrada com sucesso!';
+      this.abrirDialogo('Sucesso', mensagem);
+
+      if (!this.modoEdicao) {
+        this.resetarFormulario();
+      }
+
+      setTimeout(() => {
+        this.router.navigate(['/home']);
+      }, 2000);
+
+    } catch (erro: any) {
+      const status = erro?.status ?? 'N/A';
+      const message = erro?.error?.message || erro?.message || 'Erro ao processar doação';
+      this.abrirDialogo('Erro', `STATUS: ${status} - ${message}`);
+    }
   }
 
   validarFormulario(): boolean {
@@ -75,10 +147,10 @@ export class CadastroAlimentoComponent {
   }
 
   cancelar(): void {
-    if (confirm('Deseja realmente cancelar o cadastro?')) {
+    const mensagem = this.modoEdicao ? 'Deseja realmente cancelar a edição?' : 'Deseja realmente cancelar o cadastro?';
+    if (confirm(mensagem)) {
       this.resetarFormulario();
-      // Ou navegar para outra página
-      // this.router.navigate(['/home']);
+      this.router.navigate(['/home']);
     }
   }
 
@@ -95,14 +167,22 @@ export class CadastroAlimentoComponent {
       status: 'Disponível',
     };
     this.formSubmitted = false;
+    this.doacaoId = undefined;
+    this.modoEdicao = false;
+  }
+
+  abrirDialogo(titulo: string, conteudo: string) {
+    this.dialog.open(CaixaDialogoSimples, {
+      width: '300px',
+      data: { titulo: titulo, conteudo: conteudo }
+    });
   }
 
   irPara(caminho: string) {
     this.router.navigate([caminho]);
   }
 
-  irRegistrar(caminho: string) {
-    this.cadastrarDoacao();
-    this.router.navigate([caminho]);
+  async irRegistrar(caminho: string) {
+    await this.cadastrarDoacao();
   }
 }

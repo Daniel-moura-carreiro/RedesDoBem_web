@@ -44,7 +44,7 @@ export class HomeComponent implements DoCheck {
       localStorage.removeItem('logado');
       localStorage.removeItem('token');
       this.logado = false;
-      this.router.navigate(['/']);
+      this.router.navigate(['']);
     }
   }
 

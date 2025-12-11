@@ -10,7 +10,7 @@
                 <span class="icon">🍽️</span>
                 Informações dos alimentos
             </h3>
-            
+
             <div class="form-row">
                 <div class="form-group">
                     <label for="tipo">Tipo de alimento</label>
@@ -25,13 +25,7 @@
 
                 <div class="form-group">
                     <label for="validade">Data de validade</label>
-                    <input 
-                        id="validade"
-                        type="date" 
-                        [(ngModel)]="doacao.validade" 
-                        name="validade" 
-                        required 
-                    />
+                    <input id="validade" type="date" [(ngModel)]="doacao.validade" name="validade" required />
                     <div class="error" *ngIf="!doacao.validade && formSubmitted">
                         <small>Data de validade é obrigatória.</small>
                     </div>
@@ -40,14 +34,8 @@
 
             <div class="form-group">
                 <label for="descricao">Nome / Descrição</label>
-                <input 
-                    id="descricao"
-                    type="text" 
-                    [(ngModel)]="doacao.descricao" 
-                    name="descricao"
-                    placeholder="Ex: Feijão integral, Feijão carioca" 
-                    required 
-                />
+                <input id="descricao" type="text" [(ngModel)]="doacao.descricao" name="descricao"
+                    placeholder="Ex: Feijão integral, Feijão carioca" required />
                 <div class="error" *ngIf="!doacao.descricao && formSubmitted">
                     <small>Descrição é obrigatória.</small>
                 </div>
@@ -56,15 +44,8 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="quantidade">Quantidade</label>
-                    <input 
-                        id="quantidade"
-                        type="number" 
-                        [(ngModel)]="doacao.quantidade" 
-                        name="quantidade" 
-                        min="1"
-                        placeholder="0"
-                        required 
-                    />
+                    <input id="quantidade" type="number" [(ngModel)]="doacao.quantidade" name="quantidade" min="1"
+                        placeholder="0" required />
                     <div class="error" *ngIf="!doacao.quantidade && formSubmitted">
                         <small>Quantidade é obrigatória.</small>
                     </div>
@@ -88,17 +69,11 @@
                 <mat-icon>location_on</mat-icon>
                 Localização e Coleta
             </h3>
-            
+
             <div class="form-group">
                 <label for="endereco">Endereço para coleta</label>
-                <input 
-                    id="endereco"
-                    type="text" 
-                    [(ngModel)]="doacao.endereco" 
-                    name="endereco"
-                    placeholder="Rua, número, bairro, cidade - CEP" 
-                    required 
-                />
+                <input id="endereco" type="text" [(ngModel)]="doacao.endereco" name="endereco"
+                    placeholder="Rua, número, bairro, cidade - CEP" required />
                 <div class="error" *ngIf="!doacao.endereco && formSubmitted">
                     <small>Endereço é obrigatório.</small>
                 </div>
@@ -121,16 +96,11 @@
                 <mat-icon>info</mat-icon>
                 Informações adicionais
             </h3>
-            
+
             <div class="form-group">
                 <label for="observacoes">Observações</label>
-                <textarea 
-                    id="observacoes"
-                    [(ngModel)]="doacao.observacoes" 
-                    name="observacoes"
-                    rows="4"
-                    placeholder="Informações extras, horários para coleta, instruções especiais..."
-                ></textarea>
+                <textarea id="observacoes" [(ngModel)]="doacao.observacoes" name="observacoes" rows="4"
+                    placeholder="Informações extras, horários para coleta, instruções especiais..."></textarea>
             </div>
         </section>
 
@@ -139,32 +109,20 @@
                 <mat-icon>check_circle</mat-icon>
                 Status da doação
             </h3>
-            
+
             <div class="status-buttons">
-                <button 
-                    type="button" 
-                    class="status-btn"
-                    [class.active]="doacao.status === 'Disponível'"
-                    (click)="setStatus('Disponível')"
-                >
+                <button type="button" class="status-btn" [class.active]="doacao.status === 'Disponível'"
+                    (click)="setStatus('Disponível')">
                     <mat-icon>check_circle</mat-icon>
                     Disponível
                 </button>
-                <button 
-                    type="button" 
-                    class="status-btn"
-                    [class.active]="doacao.status === 'Reservada'"
-                    (click)="setStatus('Reservada')"
-                >
+                <button type="button" class="status-btn" [class.active]="doacao.status === 'Reservada'"
+                    (click)="setStatus('Reservada')">
                     <mat-icon>schedule</mat-icon>
                     Reservada
                 </button>
-                <button 
-                    type="button" 
-                    class="status-btn"
-                    [class.active]="doacao.status === 'Entregue'"
-                    (click)="setStatus('Entregue')"
-                >
+                <button type="button" class="status-btn" [class.active]="doacao.status === 'Entregue'"
+                    (click)="setStatus('Entregue')">
                     <mat-icon>done_all</mat-icon>
                     Entregue
                 </button>
@@ -172,13 +130,13 @@
         </section>
 
         <div class="form-actions">
-            <button type="button" class="btn-cancelar" (click)="irPara('home')">
+            <button type="button" class="btn-cancelar" (click)="irPara('home')">(click)="irRegistrar('home')">
                 <mat-icon>close</mat-icon>
                 Cancelar
             </button>
             <button type="submit" class="btn-cadastrar" (click)="irRegistrar('home')">
-                <mat-icon>add_circle</mat-icon>
-                Cadastrar doação
+                <mat-icon>{{ modoEdicao ? 'edit' : 'add_circle' }}</mat-icon>
+                {{ modoEdicao ? 'Atualizar doação' : 'Cadastrar doação' }}
             </button>
         </div>
     </form>

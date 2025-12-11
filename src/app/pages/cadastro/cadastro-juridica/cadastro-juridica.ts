@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { AutenticacaoService } from '../../../services/autenticacao.service'; // <-- corrigido
+import { MatDialog } from '@angular/material/dialog';
+import { CaixaDialogoSimples } from '../../dialogos/caixa-dialogo-simples/caixa-dialogo-simples'; // <-- corrigido
 
 @Component({
   selector: 'app-cadastro-juridica',
@@ -19,30 +22,57 @@ export class CadastroJuridicaComponent {
     'SP', 'SE', 'TO'
   ];
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder, 
+    private router: Router,
+    private autenticacaoService: AutenticacaoService, // agora o token de injeção resolve
+    private dialog: MatDialog // ✅ INJETAR
+  ) {
     this.formCadastro = this.fb.group({
-      razaoSocial: ['', Validators.required],
+      nome: ['', Validators.required], // ⚠️ Mudei de razaoSocial para nome (campo do HTML)
       cnpj: ['', Validators.required],
       estado: ['', Validators.required],
       cidade: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      senha: ['', Validators.required],
-      capacidadeRecebimento: ['', Validators.required],
-      descricaoOrganizacao: ['', Validators.required]
+      senha: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
-  registrar() {
+  async registrar() {
     if (this.formCadastro.valid) {
       const dados = this.formCadastro.value;
-      console.log('Cadastro pessoa jurídica:', dados);
-      // Aqui você pode enviar os dados para o backend
+      console.log('Dados do formulário:', dados);
+      
+      try {
+        const resposta = await this.autenticacaoService.cadastrarUsuario(
+          dados.email,
+          dados.nome,
+          dados.senha
+        );
+        
+        console.log('Cadastro realizado com sucesso!', resposta);
+        this.abrirDialogo('Sucesso', 'Cadastro realizado com sucesso! Faça login para continuar.');
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 2000);
+        
+      } catch (erro: any) {
+        console.error('Erro ao cadastrar:', erro);
+        const status = erro?.status ?? 'N/A';
+        const message = erro?.error?.message || erro?.message || 'Erro ao cadastrar instituição';
+        this.abrirDialogo('Erro', `STATUS: ${status} - ${message}`);
+      }
     } else {
-      console.log('Formulário de pessoa jurídica inválido');
+      console.log('Formulário inválido');
+      this.formCadastro.markAllAsTouched();
+      this.abrirDialogo('Atenção', 'Por favor, preencha todos os campos corretamente.');
     }
   }
 
-  navegarPara(caminho: string) {
-    this.router.navigate([caminho]);
+  abrirDialogo(titulo: string, conteudo: string) {
+    this.dialog.open(CaixaDialogoSimples, {
+      width: '300px',
+      data: { titulo: titulo, conteudo: conteudo }
+    });
   }
 }
